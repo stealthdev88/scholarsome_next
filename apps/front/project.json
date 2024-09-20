@@ -1,0 +1,112 @@
+{
+  "name": "front",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "application",
+  "sourceRoot": "apps/front/src",
+  "prefix": "scholarsome",
+  "targets": {
+    "build": {
+      "executor": "@ngx-env/builder:browser",
+      "builder": "@ngx-env/builder:browser",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/apps/front",
+        "index": "apps/front/src/index.html",
+        "main": "apps/front/src/main.ts",
+        "polyfills": "apps/front/src/polyfills.ts",
+        "tsConfig": "apps/front/tsconfig.app.json",
+        "inlineStyleLanguage": "scss",
+        "assets": [
+          "apps/front/src/favicon.ico",
+          "apps/front/src/assets",
+          "apps/front/src/robots.txt",
+          {
+            "glob": "**/*",
+            "input": "./node_modules/@kolkov/angular-editor/assets/",
+            "output": "./assets/fonts/"
+          }
+        ],
+        "styles": ["apps/front/src/styles.scss"],
+        "scripts": [
+          "node_modules/bootstrap/dist/js/bootstrap.bundle.min.js",
+          "node_modules/quill/dist/quill.min.js",
+          "node_modules/katex/dist/katex.min.js"
+        ],
+        "ngxEnv": {
+          "prefix": "SCHOLARSOME_"
+        },
+        "allowedCommonJsDependencies": ["@prisma/client", "validator"]
+      },
+      "configurations": {
+        "production": {
+          "buildOptimizer": true,
+          "optimization": {
+            "scripts": true,
+            "fonts": true,
+            "styles": {
+              "minify": true,
+              "inlineCritical": false
+            }
+          },
+          "sourceMap": false,
+          "extractLicenses": true,
+          "budgets": [
+            {
+              "type": "initial",
+              "maximumWarning": "2mb",
+              "maximumError": "2mb"
+            },
+            {
+              "type": "anyComponentStyle",
+              "maximumWarning": "2kb",
+              "maximumError": "4kb"
+            }
+          ],
+          "outputHashing": "all"
+        },
+        "development": {
+          "buildOptimizer": false,
+          "optimization": false,
+          "vendorChunk": true,
+          "extractLicenses": false,
+          "sourceMap": true,
+          "namedChunks": true
+        }
+      },
+      "defaultConfiguration": "production"
+    },
+    "serve": {
+      "executor": "@ngx-env/builder:dev-server",
+      "configurations": {
+        "production": {
+          "browserTarget": "front:build:production"
+        },
+        "development": {
+          "browserTarget": "front:build:development"
+        }
+      },
+      "defaultConfiguration": "development",
+      "options": {
+        "proxyConfig": "apps/front/proxy.conf.json"
+      }
+    },
+    "extract-i18n": {
+      "executor": "@ngx-env/builder:extract-i18n",
+      "options": {
+        "browserTarget": "front:build"
+      }
+    },
+    "lint": {
+      "executor": "@nx/eslint:lint"
+    },
+    "test": {
+      "executor": "@ngx-env/builder:karma",
+      "outputs": ["{workspaceRoot}/coverage/apps/front"],
+      "options": {
+        "jestConfig": "apps/front/jest.config.ts",
+        "passWithNoTests": true
+      }
+    }
+  },
+  "tags": ["scope:client"]
+}

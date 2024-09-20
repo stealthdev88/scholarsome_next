@@ -1,0 +1,12 @@
+Dockerfile
+.dockerignore
+npm_modules
+node_modules
+npm-debug.log
+dist
+.vscode
+.git
+.env
+README.md
+.docusaurus
+.cache-loader

@@ -1,0 +1,6 @@
+User-agent: *
+Allow: /study-set
+Allow: /profile
+Allow: /folder
+Allow: /handbook
+Disallow: /404

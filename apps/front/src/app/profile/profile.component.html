@@ -1,0 +1,54 @@
+<div class="d-flex justify-content-center mt-5" #spinner>
+  <div class="spinner-border text-primary" role="status">
+    <span class="visually-hidden">Loading...</span>
+  </div>
+</div>
+
+<div class="h-100 container-fluid profile-container mt-4" *ngIf="user">
+  <div>
+    <div class="d-flex align-items-center text-wrap">
+      <fa-icon *ngIf="!avatarUrl" [icon]="['far', 'user']" class="display-2"></fa-icon>
+      <img *ngIf="avatarUrl" [src]="avatarUrl" class="avatar">
+      <div class="display-5 fw-bold ms-3 text-break">{{user.username}}</div>
+    </div>
+    <p class="text-secondary fs-4 mt-4">Member since {{registrationDate}}</p>
+  </div>
+  <div class="mt-5 mb-4">
+    <h2>
+      <fa-icon class="fs-3" [icon]="faClone"></fa-icon>
+      Study sets
+    </h2>
+    <div class="row row-cols-1 row-cols-md-4 mt-3 g-4">
+      <div class="col-md-3" *ngFor="let set of user.sets;">
+        <div class="mb-2 h-100" [routerLink]="['/study-set', set.id]">
+          <div class="card shadow-sm h-100">
+            <div class="card-body">
+              <h5 class="card-title">{{set.title}} <fa-icon *ngIf="set.private" [icon]="['far', 'eye-slash']"></fa-icon></h5>
+            </div>
+            <div class="card-footer mt-auto">
+              <small class="text-body-secondary text-decoration-none">Updated on {{ set.updatedAt.toLocaleString('en-us', { month:'long', day: 'numeric', year:'numeric'}) }}</small>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="mt-5 mb-4">
+    <h2>
+      <fa-icon class="fs-3" [icon]="faFolder"></fa-icon>
+      Folders
+    </h2>
+    <div class="row row-cols-1 row-cols-md-4 mt-3 g-4">
+      <div class="col-md-3" *ngFor="let folder of user.folders;">
+        <div class="mb-2 h-100" [routerLink]="['/folder', folder.id]">
+          <div class="card shadow-sm h-100">
+            <div class="card-body">
+              <h5 class="card-title">{{folder.name}} <fa-icon *ngIf="folder.private" [icon]="['far', 'eye-slash']"></fa-icon></h5>
+            </div>
+            <div class="card-footer mt-auto" [ngStyle]="{'background-color': folder.color}"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

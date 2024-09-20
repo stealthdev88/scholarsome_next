@@ -1,0 +1,76 @@
+<div class="d-flex justify-content-center mt-5" #spinner>
+  <div class="spinner-border text-primary" role="status">
+    <span class="visually-hidden">Loading...</span>
+  </div>
+</div>
+
+<div class="d-flex flex-column justify-content-center align-items-center configuration" #container *ngIf="!created && loaded" hidden>
+  <div class="card shadow-sm">
+    <div class="card-body">
+      <h2>
+        Quiz configuration
+        <a href="/handbook/usage/quizzes" target="_blank" class="text-decoration-none help-button"><fa-icon [icon]="faQuestionCircle" class="fs-5"></fa-icon></a>
+      </h2>
+      <form #optionsForm="ngForm" (ngSubmit)="beginQuiz(optionsForm)" class="fs-5 ms-n5" ngNativeValidate>
+        <div class="form-check form-switch options-buttons">
+          <div class="d-flex justify-content-between">
+            <p>Written</p>
+            <input class="form-check-input options-selector" type="checkbox" role="switch" name="written" [disabled]="!trueOrFalseSelected && !multipleChoiceSelected" [(ngModel)]="writtenSelected" checked>
+          </div>
+          <div class="d-flex justify-content-between">
+            <p>True/False</p>
+            <input class="form-check-input options-selector" type="checkbox" role="switch" name="trueOrFalse" [disabled]="!writtenSelected && !multipleChoiceSelected" [(ngModel)]="trueOrFalseSelected" checked>
+          </div>
+          <div class="d-flex justify-content-between" *ngIf="set">
+            <p>Multiple Choice</p>
+            <input class="form-check-input options-selector" type="checkbox" role="switch" name="multipleChoice" [disabled]="!writtenSelected && !trueOrFalseSelected || set.cards.length < 4" [(ngModel)]="multipleChoiceSelected" checked>
+          </div>
+          <hr class="mb-4">
+          <div class="d-flex justify-content-between options-dropdown">
+            <p class="options-text">Answer with</p>
+            <select class="form-select w-25 h-50 options-dropdown" name="answerWith" required ngModel>
+              <option selected disabled>Select</option>
+              <option value="term">Term</option>
+              <option value="definition">Definition</option>
+              <option value="both">Both</option>
+            </select>
+          </div>
+          <div class="d-flex justify-content-between">
+            <p class="options-text">Number of questions <span class="fs-6 fw-light text-secondary options-disclaimer" hidden>(selecting more than 10 will create more than 1 question per card)</span></p>
+            <input type="number" class="form-control h-50 w-25" name="numberOfQuestions" min="1" required ngModel>
+          </div>
+          <div class="d-flex justify-content-between mt-4 mb-4">
+            <p class="text-secondary fs-6 fw-light">* Quizzes do not save between reloads</p>
+            <button type="submit" class="btn btn-primary">Start</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="created">
+  <div class="container-fluid quiz">
+    <button type="submit" class="btn btn-primary container-fluid my-5" *ngIf="submitted" (click)="reloadPage()">Take another quiz</button>
+    <div class="d-flex d-flex shadow rounded quiz-question align-items-center" *ngIf="submitted">
+      <div class="mx-4 container-fluid mt-3 mb-4">
+        <div class="progress bg-danger" role="progressbar" aria-label="Warning example">
+          <div class="progress-bar text-bg-danger w-100" *ngIf="percentCorrect === 0">0%</div>
+          <div class="progress-bar text-bg-success" *ngIf="percentCorrect > 0" [ngStyle]="{'width': percentCorrect + '%'}">{{percentCorrect}}%</div>
+        </div>
+      </div>
+    </div>
+    <form [formGroup]="quizForm" (ngSubmit)="submitQuiz(quizForm, questions)">
+      <div *ngFor="let question of questions">
+        <scholarsome-study-set-quiz-question [question]="question" [submitted]="submitted" [correct]="question.correct" [parentForm]="quizForm"></scholarsome-study-set-quiz-question>
+      </div>
+      <button type="submit" class="btn btn-primary container-fluid my-5" [disabled]="submitted">Submit quiz</button>
+      <div class="my-5"></div>
+    </form>
+  </div>
+</div>
+
+<div class="d-flex container-fluid bg-white fixed-bottom shadow navigation-bar">
+  <fa-icon class="fs-2 back-arrow" *ngIf="!created" [routerLink]="['/study-set', setId]" [icon]="['far', 'arrow-alt-circle-left']"></fa-icon>
+  <fa-icon class="fs-2 back-arrow" *ngIf="created" (click)="reloadPage()" [icon]="['far', 'arrow-alt-circle-left']"></fa-icon>
+</div>

@@ -1,0 +1,93 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
+@import '../../../node_modules/bootstrap/scss/functions.scss';
+@import '../../../node_modules/bootstrap/scss/variables.scss';
+
+$primary: #8438ff;
+$theme-colors: map-merge($theme-colors, (
+  "primary": #8438ff
+));
+
+$form-check-input-checked-bg-color: $primary !important;
+$form-check-input-checked-border-color: $primary !important;
+$dropdown-link-active-bg: $primary !important;
+
+$enable-negative-margins: true;
+@import '../../../node_modules/bootstrap/scss/bootstrap.scss';
+
+@import '~quill/dist/quill.core.css';
+@import '~quill/dist/quill.snow.css';
+@import '~katex/dist/katex.min.css';
+
+body {
+  background-color: #f8fafb;
+}
+
+.grecaptcha-badge {
+  visibility: hidden;
+}
+
+.navbar-spacing {
+  margin-top: 8vh;
+}
+
+textarea {
+  resize: none;
+}
+
+.github:hover {
+  color: #8438ff !important;
+}
+
+.modal-open {
+  overflow: hidden !important;
+  overflow-y: inherit !important;
+  padding-right:0 !important;
+}
+
+.angular-editor-toolbar {
+  background-color: #FFFFFF !important;
+}
+
+.angular-editor-button.active {
+  background-color: lightgrey !important;
+}
+
+.angular-editor-textarea {
+  resize: none !important;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+.help-button {
+  color: black;
+}
+
+.anki-color {
+  color: #051e59;
+}
+
+.quizlet-color {
+  color: #5162ff;
+}
+
+.help-button:hover {
+  animation: help-button-color-change 0.25s;
+  animation-fill-mode: forwards;
+}
+
+.cursor-pointer {
+  cursor: pointer;
+}
+
+@keyframes help-button-color-change {
+  0% {
+    color: #212529;
+  }
+
+  100% {
+    color: #8438ff;
+  }
+}

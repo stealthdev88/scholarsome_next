@@ -1,0 +1,121 @@
+.navbar {
+  opacity: 97.5%;
+}
+
+.nav-link {
+  color: black;
+}
+
+.navbar-brand {
+  margin-right: -1rem !important;
+}
+
+.showcase-row {
+  margin-top: 3vh;
+}
+
+.as-seen-on {
+  margin-bottom: 2vh;
+  color: #ababab;
+}
+
+.section-2 {
+  min-height: 30vh;
+  background-color:hsla(262,100%,60%,1);
+  background-image:
+    radial-gradient(at 29% 46%, hsla(213,87%,69%,1) 0px, transparent 50%),
+    radial-gradient(at 93% 27%, hsla(174,64%,68%,1) 0px, transparent 50%),
+    radial-gradient(at 76% 55%, hsla(253,99%,60%,1) 0px, transparent 50%),
+    radial-gradient(at 68% 71%, hsla(270,99%,78%,1) 0px, transparent 50%),
+    radial-gradient(at 50% 86%, hsla(233,75%,71%,1) 0px, transparent 50%),
+    radial-gradient(at 3% 59%, hsla(22,79%,73%,1) 0px, transparent 50%),
+    radial-gradient(at 43% 89%, hsla(305,96%,79%,1) 0px, transparent 50%);
+}
+
+.section-3 {
+  background: linear-gradient(to top, #e5ddff, white);
+}
+
+.section-4 {
+  background: linear-gradient(to bottom, #e5ddff, white);
+  margin-bottom: 7vh;
+}
+
+.section-5-rectangle {
+  background-color: #0d141c;
+  width: 100%;
+}
+
+.section-5-tagline {
+  margin-left: 1rem;
+  margin-right: 1rem;
+}
+
+.section-3-feature-image {
+  border-radius: 10px;
+}
+
+body {
+  overflow-x: hidden;
+}
+
+.showcase-image {
+  border: 3px solid #8338ff;
+  border-radius: 15px;
+  box-shadow: #8338ff 0 18px 50px -10px;;
+}
+
+// landscape phones
+@media only screen and (min-device-width : 321px) and (max-device-width: 850px) and (orientation: landscape) {
+  .section-3-feature-image {
+    width: 80%;
+  }
+}
+
+// landscape tablets
+@media only screen and (min-device-width : 850px) and (max-device-width : 1370px) {
+  .as-seen-on {
+    margin-top: 10vh;
+    margin-bottom: 4vh;
+  }
+
+  .section-2-laptop {
+    width: 80%;
+  }
+}
+
+// desktop
+@media only screen and (min-device-width : 1370px) and (max-device-width : 7680px) {
+  .navbar-container {
+    padding-left: 15%;
+    padding-right: 15%;
+  }
+
+  .as-seen-on {
+    margin-bottom: 2vh;
+  }
+
+  .section-2-laptop {
+    width: 75%;
+  }
+
+  .section-3-feature-image {
+    width: 75%;
+  }
+
+  .section-3-features {
+    margin-left: 15rem;
+    margin-right: 15rem;
+  }
+
+  .section-4-content {
+    margin-left: 15rem;
+    margin-right: 15rem;
+  }
+
+  .section-5-rectangle {
+    border-radius: 1rem;
+    margin-left: 20vw;
+    margin-right: 20vw;
+  }
+}

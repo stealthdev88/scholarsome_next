@@ -1,0 +1,90 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider     = "mysql"
+  url          = env("DATABASE_URL")
+  relationMode = "prisma"
+}
+
+model User {
+  id        String   @id @default(uuid())
+  username  String   @unique
+  email     String   @unique
+  password  String
+  verified  Boolean  @default(false)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  sets      Set[]
+  apiKeys   ApiKey[]
+  folders   Folder[]
+}
+
+model Set {
+  id          String   @id @default(uuid())
+  authorId    String
+  title       String
+  description String?  @db.Text
+  author      User     @relation(fields: [authorId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  private     Boolean
+  folders     Folder[]
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  cards       Card[]
+
+  @@index([authorId])
+}
+
+model Folder {
+  id             String   @id @default(uuid())
+  parentFolderId String?
+  authorId       String
+  name           String
+  description    String?  @db.Text
+  color          String   @db.VarChar(7)
+  private        Boolean
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+  sets           Set[]
+  author         User     @relation(fields: [authorId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  parentFolder   Folder?  @relation("FolderNesting", fields: [parentFolderId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  subfolders     Folder[] @relation("FolderNesting")
+
+  @@index([parentFolderId, authorId])
+}
+
+model CardMedia {
+  id        String   @id @default(uuid())
+  cardId    String
+  name      String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  card      Card     @relation(fields: [cardId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+
+  @@index([cardId])
+}
+
+model Card {
+  id         String      @id @default(uuid())
+  setId      String
+  index      Int
+  term       String      @db.Text
+  definition String      @db.Text
+  createdAt  DateTime    @default(now())
+  updatedAt  DateTime    @updatedAt
+  set        Set         @relation(fields: [setId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  media      CardMedia[]
+
+  @@index([setId])
+}
+
+model ApiKey {
+  id     String @id @default(uuid())
+  userId String
+  name   String
+  apiKey String @unique @default(cuid())
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+
+  @@index([userId])
+}
